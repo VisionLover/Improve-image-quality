@@ -20,3 +20,25 @@ _, image = cv2.threshold(image, 185, 255, cv2.THRESH_BINARY)
 cv2.imwrite("Captcha.png", image)
 
 count = 0
+for px in range(0, w):
+    for py in range(0, h):
+        if (format(image[py][px]) == "[255 255 255]"):
+            count += 1
+        if (format(image[py][px]) == "[0 0 0]" and 1<=count<=50):
+            image[py-count:py,px] = [0,0,0]
+            count = 0
+        if (format(image[py][px]) == "[0 0 0]"):
+            count = 0
+
+count = 0
+for px in range(0, h):
+    for py in range(0, w):
+        if (format(image[px][py]) == "[255 255 255]"):
+            count += 1
+        if (format(image[px][py]) == "[0 0 0]" and 1<=count<=50):
+            image[px,py-count:py] = [0,0,0]
+            count = 0
+        if (format(image[px][py]) == "[0 0 0]"):
+            count = 0
+cv2.imwrite("Captcha1.png", image)
+            
